@@ -30,8 +30,8 @@ class LandingComponent extends Component {
                         {/* <img src={Syringe} alt=""/> */}
                     </div>
                 </div>
-                <footer className="footer">
-                </footer>
+                {/* <footer className="footer">
+                </footer> */}
             </div>
 
         );

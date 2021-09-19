@@ -35,7 +35,8 @@ class CeterDetailsByPincode extends Component {
       centerDetails: [],
       pincode: "",
       selectedDate: new Date(),
-      value: 0
+      value: 0,
+      pincodeValidation: false
     }
   }
   getCenterDetails = (e) => {
@@ -59,79 +60,106 @@ class CeterDetailsByPincode extends Component {
     this.setState({ selectedDate: date });
   };
 
+  handlePincodeChange = (e) => {
+    this.setState((prevState) => { return { pincode: e.target.value, pincodeValidation: !(e.target.value.length === 6) } })
+  }
+
   render() {
     return (
       <Fragment>
 
         <div className="formAlignCenter">
-          <div clasName="form-card" >
-            <h1>GET CENTER DETAILS NEAR YOU</h1>
-            <form onSubmit={this.getCenterDetails}>
-              <TextField className="cityCenter same-width" label="Pincode" onChange={(e) => this.setState({ pincode: e.target.value })} />
-              <br></br>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  label="Select Date"
-                  value={this.state.selectedDate}
-                  onChange={this.handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </MuiPickersUtilsProvider>
-              <div className="button submit">
-                <Button onClick={this.getCenterDetails} className="otpButton" variant="contained" disabled={this.state.pincode.length !== 6}>Serach For Center</Button>
-              </div>
-            </form>
-          </div>
-          {this.state.centerDetails.length > 0 && <div className="card">
-            {/* <DataTable
-              value={this.state.centerDetails}
-              id="data-table"
-              style={{
-              }}>
-              <Column field="vaccine" header="Vaccine"></Column>
-              <Column field="name" header="Name"></Column>
-              <Column field="min_age_limit" header="Min Age"></Column>
-              <Column field="available_capacity_dose1" header="DOSE-I Available No."></Column>
-              <Column field="available_capacity_dose2" header="DOSE-II Available No."></Column>
-              <Column field="address" header="Address"></Column>
-              <Column field="fee_type" header="Fees" ></Column>
-            </DataTable> */}
-            {this.state.centerDetails.map((item) => (<Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>{item.name}  <Chip label={item.vaccine} /></Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <table>
-                    <tr>
-                      <td style={{ 'textAlign': 'center' }}> <strong>Address </strong> </td>
-                      <td style={{ 'textAlign': 'center' }}> <strong>Min Age </strong> </td>
-                      <td style={{ 'textAlign': 'center' }}> <strong>DOSE-I </strong> </td>
-                      <td style={{ 'textAlign': 'center' }}> <strong>DOSE-II </strong> </td>
-                      <td style={{ 'textAlign': 'center' }}> <strong>Fee </strong> </td>
-                    </tr>
+          <Box
+            sx={{
+              'bgcolor': '#FFFFFF',
+              'border-radius': '5px',
+              'padding': '2rem',
+              // 'max-width':'50%',
+              'align-items': 'center',
+              // 'margin-left':"1rem",
+              // "margin-right":"1rem",
+              "margin-bottom": "1rem",
+              "box-shadow": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22)",
+              "min-height":"max-content"
+            }}
+          >
+            <div clasName="form-card" >
+              <h1>GET CENTER DETAILS NEAR YOU</h1>
+              <form onSubmit={this.getCenterDetails}>
+                <TextField
+                  error={this.state.pincodeValidation}
+                  className="cityCenter same-width"
+                  label="Pincode"
+                  onChange={this.handlePincodeChange}
+                  helperText={this.state.pincodeValidation ? "Pincode should be 6 digit numeric (eg- 482001)." : ""} />
+                <br></br>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Select Date"
+                    value={this.state.selectedDate}
+                    onChange={this.handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                <div className="button submit">
+                  <Button onClick={this.getCenterDetails} className="otpButton" variant="contained" color="success" disabled={this.state.pincode.length !== 6}>Serach For Center</Button>
+                </div>
+              </form>
+            </div>
+          </Box>
+          <Box
+            sx={{
+              'bgcolor': '#FFFFFF',
+              ' border-radius': '5px',
+              "box-shadow": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22)"
+            }}
+          >
+            {this.state.centerDetails.length > 0 && <div className="card">
+              {this.state.centerDetails.map((item) => (<Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography  > <div className="typo-pills">
+                    <Chip label={item.vaccine} color="primary" />
+                    {item.available_capacity_dose1 > 0 && <Chip variant="outlined" label={"DOSE-I"} color="success" />}
+                    {item.available_capacity_dose2 > 0 && <Chip variant="outlined" label={"DOSE-II"} color="success" />}
+                    <Chip variant="outlined" label={`AGE-${item.min_age_limit}+`} color="primary" /></div>
+                    {item.name}
 
-                    <tr>
-                      <td>{item.address}</td>
-                      <td>{item.min_age_limit}</td>
-                      <td>{item.available_capacity_dose1}</td>
-                      <td>{item.available_capacity_dose2}</td>
-                      <td>{item.fee_type}</td>
-                    </tr>
-                  </table>
-                </Typography>
-              </AccordionDetails>
-            </Accordion>))}
-          </div>}
+
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    <table>
+                      <tr>
+                        <td style={{ 'textAlign': 'center' }}> <strong>Address </strong> </td>
+                        <td style={{ 'textAlign': 'center' }}> <strong>Min Age </strong> </td>
+                        <td style={{ 'textAlign': 'center' }}> <strong>DOSE-I </strong> </td>
+                        <td style={{ 'textAlign': 'center' }}> <strong>DOSE-II </strong> </td>
+                        <td style={{ 'textAlign': 'center' }}> <strong>Fee </strong> </td>
+                      </tr>
+
+                      <tr>
+                        <td>{item.address}</td>
+                        <td>{item.min_age_limit}</td>
+                        <td>{item.available_capacity_dose1}</td>
+                        <td>{item.available_capacity_dose2}</td>
+                        <td>{item.fee_type}</td>
+                      </tr>
+                    </table>
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>))}
+            </div>}
+          </Box>
         </div>
 
       </Fragment >

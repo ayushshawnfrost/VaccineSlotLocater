@@ -22,6 +22,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 
 class GetCenterByDistrict extends Component {
     constructor(props) {
@@ -98,110 +99,116 @@ class GetCenterByDistrict extends Component {
         return (
             <Fragment>
                 <div className="formAlignCenter">
-                <h1>GET CENTER DETAILS NEAR YOU</h1>
-                    <div>
-                        <FormControl className="same-width">
-                            <InputLabel id="demo-simple-select-label">STATES</InputLabel>
-                            <Select
-                                variant="filled"
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={this.state.selectedStateID}
-                                onChange={this.statesOnChange}
-                            >
-                                {this.state.states && this.state.states.map((item) => (
-                                    <MenuItem value={item.state_id}>{item.state_name}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl className="same-width">
-                            <InputLabel id="demo-simple-select-label">DISTRICT</InputLabel>
-                            <Select
-                                variant="filled"
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={this.state.selectedDistrictID}
-                                onChange={this.districtOnChange}
-                            >
-                                {this.state.districts && this.state.districts.map((item) => (
-                                    <MenuItem value={item.district_id}>{item.district_name}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <div>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                format="MM/dd/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Select Date"
-                                value={this.state.selectedDate}
-                                onChange={this.handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            />
-                        </MuiPickersUtilsProvider>
-                    </div>
+                    <Box
+                        sx={{
+                            'bgcolor': '#FFFFFF',
+                            'border-radius': '5px',
+                            'padding': '2rem',
+                            // 'max-width':'50%',
+                            'align-items': 'center',
+                            // 'margin-left':"1rem",
+                            // "margin-right":"1rem",
+                            "margin-bottom": "1rem",
+                            "box-shadow": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22)"
+                        }}
+                    >
+                        <h1>GET CENTER DETAILS NEAR YOU</h1>
+                        <div>
+                            <FormControl className="same-width">
+                                <InputLabel id="demo-simple-select-label">STATES</InputLabel>
+                                <Select
+                                    variant="standard"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={this.state.selectedStateID}
+                                    onChange={this.statesOnChange}
+                                >
+                                    {this.state.states && this.state.states.map((item) => (
+                                        <MenuItem value={item.state_id}>{item.state_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <FormControl className="same-width">
+                                <InputLabel id="demo-simple-select-label">DISTRICT</InputLabel>
+                                <Select
+                                    variant="standard"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={this.state.selectedDistrictID}
+                                    onChange={this.districtOnChange}
+                                >
+                                    {this.state.districts && this.state.districts.map((item) => (
+                                        <MenuItem value={item.district_id}>{item.district_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Select Date"
+                                    value={this.state.selectedDate}
+                                    onChange={this.handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
 
-                    <Button onClick={this.getCentersWithDistrictID} variant="contained" disabled={!(this.state.selectedStateID && this.state.selectedStateID)}>Serach For Center</Button>
+                        <Button onClick={this.getCentersWithDistrictID} variant="contained" disabled={!(this.state.selectedStateID && this.state.selectedDistrictID)}>Serach For Center</Button>
+
+
+                    </Box>
+                    <Box
+                        sx={{
+                            'bgcolor': '#FFFFFF',
+                            'border-radius': '5px',
+                            "box-shadow": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22)"
+                        }}
+                    >
+                        {this.state.centerDetails.length > 0 &&
+                            <div className="card">
+                                {this.state.centerDetails.map((item) => (<Accordion>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography className="Typography">{item.name}  <Chip label={item.vaccine} color="primary" />
+                                            {item.available_capacity_dose1 > 0 && <Chip variant="outlined" label={"DOSE-I"} color="success" />}
+                                            {item.available_capacity_dose2 > 0 && <Chip variant="outlined" label={"DOSE-II"} color="success" />}</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            <table>
+                                                <tr>
+                                                    <td style={{ 'textAlign': 'center' }}> <strong>Address </strong> </td>
+                                                    <td style={{ 'textAlign': 'center' }}> <strong>Min Age </strong> </td>
+                                                    <td style={{ 'textAlign': 'center' }}> <strong>DOSE-I </strong> </td>
+                                                    <td style={{ 'textAlign': 'center' }}> <strong>DOSE-II </strong> </td>
+                                                    <td style={{ 'textAlign': 'center' }}> <strong>Fee </strong> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>{item.address}</td>
+                                                    <td>{item.min_age_limit}</td>
+                                                    <td>{item.available_capacity_dose1}</td>
+                                                    <td>{item.available_capacity_dose2}</td>
+                                                    <td>{item.fee_type}</td>
+                                                </tr>
+                                            </table>
+                                        </Typography>
+                                    </AccordionDetails>
+                                </Accordion>))}
+                            </div>}
+                    </Box>
                 </div>
-
-
-
-                {this.state.centerDetails.length > 0 && <div className="card">
-                    {/* <DataTable
-                        value={this.state.centerDetails}
-                        id="data-table"
-                        style={{
-                            // borderStyle: 'solid',
-                            // borderWidth: '1px',
-                            // boxShadow: '2px 4px #F5F5F5',
-                            // alignItems: 'center',
-                            // justifyContent: 'space-between'
-                        }}>
-                        <Column field="vaccine" header="Vaccine"></Column>
-                        <Column field="name" header="Name"></Column>
-                        <Column field="min_age_limit" header="Min Age"></Column>
-                        <Column field="available_capacity_dose1" header="DOSE-I Available No."></Column>
-                        <Column field="available_capacity_dose2" header="DOSE-II Available No."></Column>
-                        <Column field="address" header="Address"></Column>
-                        <Column field="fee_type" header="Fees" ></Column>
-                    </DataTable> */}
-                    {this.state.centerDetails.map((item) => (<Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography>{item.name}  <Chip label={item.vaccine} /></Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography>
-                                <table>
-                                    <tr>
-                                        <td style={{ 'textAlign': 'center' }}> <strong>Address </strong> </td>
-                                        <td style={{ 'textAlign': 'center' }}> <strong>Min Age </strong> </td>
-                                        <td style={{ 'textAlign': 'center' }}> <strong>DOSE-I </strong> </td>
-                                        <td style={{ 'textAlign': 'center' }}> <strong>DOSE-II </strong> </td>
-                                        <td style={{ 'textAlign': 'center' }}> <strong>Fee </strong> </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>{item.address}</td>
-                                        <td>{item.min_age_limit}</td>
-                                        <td>{item.available_capacity_dose1}</td>
-                                        <td>{item.available_capacity_dose2}</td>
-                                        <td>{item.fee_type}</td>
-                                    </tr>
-                                </table>
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>))}
-                </div>}
             </Fragment >
         );
     }
