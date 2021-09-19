@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/VaccineSlotLocater/static/css/main.96044bdc.chunk.css",
+    "main.js": "/VaccineSlotLocater/static/js/main.99f889c1.chunk.js",
+    "main.js.map": "/VaccineSlotLocater/static/js/main.99f889c1.chunk.js.map",
+    "runtime-main.js": "/VaccineSlotLocater/static/js/runtime-main.106c95ed.js",
+    "runtime-main.js.map": "/VaccineSlotLocater/static/js/runtime-main.106c95ed.js.map",
+    "static/js/2.d953119d.chunk.js": "/VaccineSlotLocater/static/js/2.d953119d.chunk.js",
+    "static/js/2.d953119d.chunk.js.map": "/VaccineSlotLocater/static/js/2.d953119d.chunk.js.map",
+    "static/js/3.64671140.chunk.js": "/VaccineSlotLocater/static/js/3.64671140.chunk.js",
+    "static/js/3.64671140.chunk.js.map": "/VaccineSlotLocater/static/js/3.64671140.chunk.js.map",
+    "index.html": "/VaccineSlotLocater/index.html",
+    "static/css/main.96044bdc.chunk.css.map": "/VaccineSlotLocater/static/css/main.96044bdc.chunk.css.map",
+    "static/js/2.d953119d.chunk.js.LICENSE.txt": "/VaccineSlotLocater/static/js/2.d953119d.chunk.js.LICENSE.txt",
+    "static/media/doctor.f655e0f5.svg": "/VaccineSlotLocater/static/media/doctor.f655e0f5.svg",
+    "static/media/syringe.ee719ca3.png": "/VaccineSlotLocater/static/media/syringe.ee719ca3.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.106c95ed.js",
+    "static/js/2.d953119d.chunk.js",
+    "static/css/main.96044bdc.chunk.css",
+    "static/js/main.99f889c1.chunk.js"
+  ]
+}
